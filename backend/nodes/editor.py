@@ -11,8 +11,6 @@ from ..utils.references import format_references_section
 logger = logging.getLogger(__name__)
 
 
-
-
 class Editor:
     """Compiles individual section briefings into a cohesive final report."""
     
@@ -237,17 +235,32 @@ Strictly enforce this EXACT document structure:
 
 # {company} Research Report
 
-## Company Overview
+## Executive Summary
+[Summary content with bullet points for key findings]
+
+## Chapter 1: Account Overview
 [Company content with ### subsections]
 
-## Industry Overview
-[Industry content with ### subsections]
+## Chapter 2: Strategic Objectives, Modernization Initiatives and Challenges
+[Strategic content with ### subsections]
 
-## Financial Overview
-[Financial content with ### subsections]
+## Chapter 3: Application Modernization Assessment
+[Application assessment content]
 
-## News
-[News content with ### subsections]
+## Chapter 4: Data Modelling Assessment
+[Data modelling content]
+
+## Chapter 5: Gen AI Stack Assessment
+[AI/ML initiatives content]
+
+## Chapter 6: Fraud & Compliance Assessment
+[Compliance content]
+
+## Chapter 7: Decision Making Unit (DMU) Analysis
+[Leadership and organizational content]
+
+## Chapter 8: DMU Messaging Insights
+[Messaging recommendations]
 
 Return the report in clean markdown format. No explanations or commentary."""
         
@@ -290,48 +303,81 @@ Return the report in clean markdown format. No explanations or commentary."""
 Current report:
 {content}
 
-1. Remove redundant or repetitive information
-2. Remove information that is not relevant to {company}, the {industry} company headquartered in {hq_location}.
-3. Remove sections lacking substantial content
-4. Remove any meta-commentary (e.g. "Here is the news...")
+Transform this report into a MongoDB account intelligence report with the following structure:
 
-Strictly enforce this EXACT document structure:
+# {company} MongoDB Account Intelligence Report
 
-## Company Overview
-[Company content with ### subsections]
+## Executive Summary
+- Primary use case opportunity for MongoDB
+- Secondary use case opportunities (if applicable)
+- Overall account readiness score (1-10)
+- Key recommendations
+- The 3 Whys summary:
+  * What's the immediate database requirement?
+  * Why MongoDB?
+  * Why Now?
 
-## Industry Overview
-[Industry content with ### subsections]
+## Chapter 1: Account Overview
+- Latest financials (revenue, funding, valuation)
+- Business strategic priorities
+- Key people moves (joiners/leavers in last 6 months)
+- Industry context and competitive landscape
 
-## Financial Overview
-[Financial content with ### subsections]
+## Chapter 2: Strategic Objectives, Modernization Initiatives and Challenges
+- Current modernization initiatives
+- Technical challenges and pain points
+- Strategic objectives driving technology decisions
+- Timeline and urgency factors
 
-## News
-[News content with ### subsections]
+## Chapter 3: Application Modernization Assessment
+- Relevance score (1-10)
+- Specific indicators found
+- Current state vs. desired state
+- MongoDB opportunity alignment
+
+## Chapter 4: Data Modelling Assessment
+- Relevance score (1-10)
+- Schema flexibility requirements
+- Development velocity needs
+- MongoDB opportunity alignment
+
+## Chapter 5: Gen AI Stack Assessment
+- Relevance score (1-10)
+- AI/ML initiatives identified
+- Vector search and RAG requirements
+- MongoDB opportunity alignment
+
+## Chapter 6: Fraud & Compliance Assessment
+- Relevance score (1-10)
+- Compliance requirements
+- Real-time processing needs
+- MongoDB opportunity alignment
+
+## Chapter 7: Decision Making Unit (DMU) Analysis
+- Organizational chart of key decision makers
+- LinkedIn activity summary (only if posted in last 0-6 months)
+- Key topics each persona is discussing
+- Influence mapping
+
+## Chapter 8: DMU Messaging Insights
+- Persona-specific messaging recommendations
+- Technical depth requirements by role
+- Key value propositions to emphasize
+- Conversation starters and hooks
 
 ## References
-[References in MLA format - PRESERVE EXACTLY AS PROVIDED]
+[Keep existing references exactly as provided]
 
 Critical rules:
-1. The document MUST start with "# {company} Research Report"
-2. The document MUST ONLY use these exact ## headers in this order:
-   - ## Company Overview
-   - ## Industry Overview
-   - ## Financial Overview
-   - ## News
-   - ## References
-3. NO OTHER ## HEADERS ARE ALLOWED
-4. Use ### for subsections in Company/Industry/Financial sections
-5. News section should only use bullet points (*), never headers
-6. Never use code blocks (```)
-7. Never use more than one blank line between sections
-8. Format all bullet points with *
-9. Add one blank line before and after each section/list
-10. DO NOT CHANGE the format of the references section
+1. Extract and reorganize information from the source report to fit this structure
+2. For assessment chapters (3-6), assign relevance scores based on available information
+3. If information for a section is not available, note "Information not available" rather than omitting
+4. Maintain factual accuracy - do not invent information
+5. Use bullet points for clarity
+6. Focus on MongoDB-relevant insights and opportunities
+7. Keep the references section exactly as provided
 
-Return the polished report in flawless markdown format. No explanation.
-
-Return the cleaned report in flawless markdown format. No explanations or commentary."""
+Return the transformed report in clean markdown format. No explanations or commentary."""
         
         try:
             response = await self.openai_client.chat.completions.create(
@@ -339,7 +385,7 @@ Return the cleaned report in flawless markdown format. No explanations or commen
                 messages=[
                     {
                         "role": "system",
-                        "content": "You are an expert markdown formatter that ensures consistent document structure."
+                        "content": "You are an expert at creating MongoDB account intelligence reports that help sales teams identify opportunities and craft effective messaging strategies."
                     },
                     {
                         "role": "user",
