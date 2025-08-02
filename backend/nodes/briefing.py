@@ -45,110 +45,210 @@ class Briefing:
                     }
                 )
 
+        # Enhanced prompts with MongoDB context and specific instructions
         prompts = {
-            'company': f"""Create a focused company briefing for {company}, a {industry} company based in {hq_location}.
+            'company': f"""Create a comprehensive company briefing for {company}, a {industry} company based in {hq_location}.
+
+MongoDB Context: You are analyzing a company that may use databases, data storage, or cloud services. Pay special attention to:
+- Technology stack and database solutions
+- Data management practices
+- Cloud infrastructure choices
+- Integration capabilities
+- Developer tools and APIs
+
 Key requirements:
 1. Start with: "{company} is a [what] that [does what] for [whom]"
 2. Structure using these exact headers and bullet points:
 
 ### Core Product/Service
-* List distinct products/features
+* List distinct products/features with technical details
+* Include database/data-related capabilities if applicable
+* Note any cloud or infrastructure services
 * Include only verified technical capabilities
+
+### Technology Stack
+* Database technologies used (MongoDB, SQL, NoSQL, etc.)
+* Cloud platforms and infrastructure
+* Development frameworks and tools
+* Data processing and analytics capabilities
 
 ### Leadership Team
 * List key leadership team members
-* Include their roles and expertise
+* Include their roles and technical expertise
+* Note any database or cloud technology background
 
 ### Target Market
-* List specific target audiences
-* List verified use cases
-* List confirmed customers/partners
+* List specific target audiences and developer communities
+* List verified use cases, especially data-driven applications
+* List confirmed customers/partners, particularly in tech sector
+* Note enterprise vs. developer-focused segments
 
 ### Key Differentiators
-* List unique features
-* List proven advantages
+* List unique technical features
+* Database performance and scalability advantages
+* Developer experience improvements
+* Data security and compliance capabilities
 
 ### Business Model
-* Discuss product / service pricing
-* List distribution channels
+* Discuss product/service pricing, especially SaaS or usage-based models
+* List distribution channels (direct, marketplace, partner ecosystem)
+* Note freemium, open-source, or enterprise licensing models
 
 3. Each bullet must be a single, complete fact
 4. Never mention "no information found" or "no data available"
 5. No paragraphs, only bullet points
-6. Provide only the briefing. No explanations or commentary.""",
+6. Focus on technical capabilities and data-related features
+7. Provide only the briefing. No explanations or commentary.""",
 
             'industry': f"""Create a focused industry briefing for {company}, a {industry} company based in {hq_location}.
+
+MongoDB Context: Analyze the database and data infrastructure landscape. Consider:
+- Database market trends (NoSQL, cloud databases, managed services)
+- Developer tool ecosystem
+- Cloud transformation patterns
+- Data modernization initiatives
+- Multi-cloud and hybrid strategies
+
 Key requirements:
 1. Structure using these exact headers and bullet points:
 
 ### Market Overview
-* State {company}'s exact market segment
-* List market size with year
-* List growth rate with year range
+* State {company}'s exact market segment within database/cloud/data infrastructure
+* List total addressable market size with year
+* List growth rate with year range for database and cloud services
+* Note shift from on-premise to cloud-native solutions
+
+### Technology Trends
+* NoSQL vs. SQL database adoption patterns
+* Cloud-first and multi-cloud strategies
+* Serverless and managed database services growth
+* Developer experience and DevOps automation trends
+* Data analytics and real-time processing demand
 
 ### Direct Competition
-* List named direct competitors
-* List specific competing products
-* List market positions
+* List named direct competitors in database/cloud infrastructure space
+* List specific competing products and services
+* Compare market positions and technology approaches
+* Note open-source vs. commercial offerings
 
 ### Competitive Advantages
-• List unique technical features
-• List proven advantages
+* List unique technical features and performance benefits
+* Developer ecosystem and community advantages
+* Cloud integration and scalability capabilities
+* Security, compliance, and enterprise features
 
 ### Market Challenges
-• List specific verified challenges
+* Legacy system migration complexities
+* Multi-cloud data consistency challenges
+* Developer skill gaps and training needs
+* Regulatory compliance requirements
+* Cost optimization pressures
 
-2. Each bullet must be a single, complete news event.
+2. Each bullet must focus on industry-specific insights
 3. No paragraphs, only bullet points
 4. Never mention "no information found" or "no data available"
-5. Provide only the briefing. No explanation.""",
+5. Emphasize technology trends and market dynamics
+6. Provide only the briefing. No explanation.""",
 
             'financial': f"""Create a focused financial briefing for {company}, a {industry} company based in {hq_location}.
+
+MongoDB Context: Focus on SaaS, cloud, and database company financial patterns:
+- Recurring revenue models (ARR/MRR)
+- Usage-based pricing and consumption metrics
+- Developer adoption leading to enterprise sales
+- Open-source to commercial conversion
+- Cloud infrastructure scaling costs
+
 Key requirements:
 1. Structure using these headers and bullet points:
 
+### Business Model & Revenue
+* Subscription vs. usage-based pricing models
+* Freemium to paid conversion strategies
+* Developer vs. enterprise customer segments
+* Cloud service delivery and scaling economics
+
 ### Funding & Investment
-* Total funding amount with date
-* List each funding round with date
-* List named investors
+* Total funding amount with most recent date
+* List each major funding round with date and amount
+* List named lead investors and strategic partners
+* Note any acquisition offers or strategic investments
 
-### Revenue Model
-* Discuss product / service pricing if applicable
+### Financial Performance
+* Annual Recurring Revenue (ARR) or Monthly Recurring Revenue (MRR) if available
+* Customer growth and retention metrics
+* Revenue per customer or usage-based metrics
+* Geographic revenue distribution
 
-2. Include specific numbers when possible
+### Market Valuation
+* Current or last known valuation with date
+* Valuation multiples compared to industry benchmarks
+* Public market comparisons if applicable
+* Strategic value drivers and market positioning
+
+2. Include specific numbers and dates when possible
 3. No paragraphs, only bullet points
 4. Never mention "no information found" or "no data available"
-5. NEVER repeat the same round of funding multiple times. ALWAYS assume that multiple funding rounds in the same month are the same round.
-6. NEVER include a range of funding amounts. Use your best judgement to determine the exact amount based on the information provided.
-6. Provide only the briefing. No explanation or commentary.""",
+5. NEVER repeat the same funding round multiple times
+6. Focus on SaaS and cloud-native business metrics
+7. NEVER include ranges - use best judgment for exact amounts
+8. Provide only the briefing. No explanation or commentary.""",
 
             'news': f"""Create a focused news briefing for {company}, a {industry} company based in {hq_location}.
+
+MongoDB Context: Prioritize technology and database industry news:
+- Product launches and feature announcements
+- Cloud platform integrations and partnerships
+- Developer community events and open-source initiatives
+- Enterprise customer wins and case studies
+- Industry conference presentations and thought leadership
+
 Key requirements:
 1. Structure into these categories using bullet points:
 
-### Major Announcements
-* Product / service launches
-* New initiatives
+### Product & Technology Announcements
+* New database features and performance improvements
+* Cloud service launches and regional expansions
+* Developer tools and API enhancements
+* Security and compliance certifications
 
-### Partnerships
-* Integrations
-* Collaborations
+### Strategic Partnerships
+* Cloud provider integrations (AWS, Azure, GCP)
+* Technology ecosystem partnerships
+* Enterprise software integrations
+* Open-source community collaborations
 
-### Recognition
-* Awards
-* Press coverage
+### Business Milestones
+* Major customer acquisitions and case studies
+* Market expansion and international growth
+* Funding rounds and strategic investments
+* Leadership appointments and advisory additions
 
-2. Sort newest to oldest
-3. One event per bullet point
-4. Do not mention "no information found" or "no data available"
-5. Never use ### headers, only bullet points
-6. Provide only the briefing. Do not provide explanations or commentary.""",
+### Industry Recognition
+* Technology awards and analyst recognition
+* Conference keynotes and speaking engagements
+* Research reports and market positioning
+* Developer community achievements
+
+### Community & Events
+* Developer conferences and meetups
+* Open-source contributions and releases
+* Training programs and certification launches
+* Documentation and tutorial improvements
+
+2. Sort newest to oldest within each category
+3. One event per bullet point with specific dates when available
+4. Focus on technology and business impact
+5. Do not mention "no information found" or "no data available"
+6. Prioritize database, cloud, and developer-focused news
+7. Provide only the briefing. Do not provide explanations or commentary.""",
         }
         
         # Normalize docs to a list of (url, doc) tuples
         items = list(docs.items()) if isinstance(docs, dict) else [
             (doc.get('url', f'doc_{i}'), doc) for i, doc in enumerate(docs)
         ]
+        
         # Sort documents by evaluation score (highest first)
         sorted_items = sorted(
             items, 
@@ -173,7 +273,7 @@ Key requirements:
         separator = "\n" + "-" * 40 + "\n"
         prompt = f"""{prompts.get(category, 'Create a focused, informative and insightful research briefing on the company: {company} in the {industry} industry based on the provided documents.')}
 
-Analyze the following documents and extract key information. Provide only the briefing, no explanations or commentary:
+Analyze the following documents and extract key information. Focus on database, cloud, and technology-related content. Provide only the briefing, no explanations or commentary:
 
 {separator}{separator.join(doc_texts)}{separator}
 
@@ -216,7 +316,7 @@ Analyze the following documents and extract key information. Provide only the br
             await websocket_manager.send_status_update(
                 job_id=job_id,
                 status="processing",
-                message="Starting research briefings",
+                message="Starting research briefings with enhanced MongoDB context",
                 result={"step": "Briefing"}
             )
 
@@ -227,7 +327,7 @@ Analyze the following documents and extract key information. Provide only the br
             "websocket_manager": websocket_manager,
             "job_id": job_id
         }
-        logger.info(f"Creating section briefings for {company}")
+        logger.info(f"Creating section briefings for {company} with MongoDB context")
         
         # Mapping of curated data fields to briefing categories
         categories = {
