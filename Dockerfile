@@ -4,6 +4,13 @@ WORKDIR /app/ui
 COPY ui/package*.json ./
 RUN npm install
 COPY ui/ ./
+
+# Add build-time environment variables for Vite
+ARG VITE_API_URL
+ARG VITE_WS_URL
+ENV VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
+ENV VITE_WS_URL=${VITE_WS_URL:-ws://localhost:8000}
+
 RUN npm run build
 
 # Stage 2: Build Backend
@@ -45,4 +52,4 @@ RUN chown -R appuser:appuser /app
 USER appuser
 
 # Start command
-CMD ["python", "-m", "uvicorn", "application:app", "--host", "0.0.0.0", "--port", "8000"] 
+CMD ["python", "-m", "uvicorn", "application:app", "--host", "0.0.0.0", "--port", "8000"]
