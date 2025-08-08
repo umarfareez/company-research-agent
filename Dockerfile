@@ -8,6 +8,7 @@ COPY ui/ ./
 # Add build-time environment variables for Vite
 ARG VITE_API_URL
 ARG VITE_WS_URL
+ARG VITE_GOOGLE_MAPS_API_KEY
 ENV VITE_API_URL=${VITE_API_URL:-http://localhost:8000}
 ENV VITE_WS_URL=${VITE_WS_URL:-ws://localhost:8000}
 
