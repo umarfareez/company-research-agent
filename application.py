@@ -11,6 +11,7 @@ from dotenv import load_dotenv
 from fastapi import FastAPI, HTTPException, WebSocket, WebSocketDisconnect
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import FileResponse, JSONResponse, StreamingResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel
 
 from backend.graph import Graph
@@ -38,6 +39,17 @@ app.add_middleware(
     allow_methods=["GET", "POST", "OPTIONS"],
     allow_headers=["*"],
 )
+
+# Serve static files from the built React app
+static_dir = Path("ui/dist")
+if static_dir.exists():
+    # Mount assets directory for CSS, JS, images
+    assets_dir = static_dir / "assets"
+    if assets_dir.exists():
+        app.mount("/assets", StaticFiles(directory=assets_dir), name="assets")
+    
+    # Mount any other static files in the dist directory
+    app.mount("/static", StaticFiles(directory=static_dir), name="static")
 
 manager = WebSocketManager()
 pdf_service = PDFService({"pdf_output_dir": "pdfs"})
@@ -169,9 +181,8 @@ async def process_research(job_id: str, data: ResearchRequest):
         )
         if mongodb:
             mongodb.update_job(job_id=job_id, status="failed", error=str(e))
-@app.get("/")
-async def ping():
-    return {"message": "Alive"}
+
+# Remove the old ping endpoint - replaced with frontend serving
 
 @app.get("/research/pdf/{filename}")
 async def get_pdf(filename: str):
@@ -248,6 +259,31 @@ async def generate_pdf(data: PDFGenerationRequest):
             raise HTTPException(status_code=500, detail=result)
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+# Serve React app for root route
+@app.get("/")
+async def serve_frontend():
+    """Serve the React app's index.html for the root route."""
+    index_file = static_dir / "index.html"
+    if static_dir.exists() and index_file.exists():
+        return FileResponse(index_file)
+    else:
+        return {"message": "Alive", "frontend_available": False}
+
+# Catch-all route for React Router (must be last)
+@app.get("/{full_path:path}")
+async def serve_react_spa(full_path: str):
+    """Serve the React app for client-side routing."""
+    # Let API routes be handled by their specific endpoints
+    if full_path.startswith(("research", "generate-pdf", "docs", "redoc", "openapi.json", "assets", "static")):
+        raise HTTPException(status_code=404, detail="Not found")
+    
+    # For all other routes, serve the React app
+    index_file = static_dir / "index.html"
+    if static_dir.exists() and index_file.exists():
+        return FileResponse(index_file)
+    else:
+        raise HTTPException(status_code=404, detail="Frontend not available")
 
 if __name__ == "__main__":
     uvicorn.run(app, host="0.0.0.0", port=8000)
